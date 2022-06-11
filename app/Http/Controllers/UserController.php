@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddUserRequest;
-use App\Http\Requests\EditUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\EditUserRequest;
 
-class BasicController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class BasicController extends Controller
      */
     public function index()
     {
-        return view('basic.list', [
-            'title' => 'Basic CRUD',
+        return view('user.list', [
+            'title' => 'Kelola User',
             'users' => User::paginate(10)
         ]);
     }
@@ -30,7 +30,7 @@ class BasicController extends Controller
      */
     public function create()
     {
-        return view('basic.create', [
+        return view('user.create', [
             'title' => 'New User',
             'users' => User::paginate(10)
         ]);
@@ -52,7 +52,7 @@ class BasicController extends Controller
             'role' => 2
         ]);
 
-        return redirect()->route('basic.index')->with('message', 'User berhasil ditambahkan kedalam sistem');
+        return redirect()->route('user.index')->with('message', 'User berhasil ditambahkan kedalam sistem');
     }
 
     /**
@@ -63,7 +63,6 @@ class BasicController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -72,11 +71,11 @@ class BasicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $basic)
+    public function edit(User $user)
     {
-        return view('basic.edit', [
+        return view('user.edit', [
             'title' => 'Edit User',
-            'user' => $basic
+            'user' => $user
         ]);
     }
 
@@ -87,17 +86,17 @@ class BasicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EditUserRequest $request, User $basic)
+    public function update(EditUserRequest $request, User $user)
     {
         if ($request->filled('password')) {
-            $basic->password = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
         }
-        $basic->name = $request->name;
-        $basic->last_name = $request->last_name;
-        $basic->email = $request->email;
-        $basic->save();
+        $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->save();
 
-        return redirect()->route('basic.index')->with('message', 'User updated successfully!');
+        return redirect()->route('user.index')->with('message', 'Data berhasil diubah');
     }
 
     /**
@@ -106,10 +105,10 @@ class BasicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $basic)
+    public function destroy(User $user)
     {
-        $basic->delete();
+        $user->delete();
 
-        return redirect()->route('basic.index')->with('message', 'User deleted successfully!');
+        return redirect()->route('user.index')->with('message', 'User berhasil dihapus');
     }
 }
