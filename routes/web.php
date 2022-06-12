@@ -37,4 +37,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('basic', BasicController::class);
     Route::resource('user', UserController::class);
     Route::resource('food', FoodController::class);
+    Route::resource('order', OrderController::class);
 });

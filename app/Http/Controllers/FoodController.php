@@ -17,7 +17,7 @@ class FoodController extends Controller
     {
         return view('food.list', [
             'title' => 'Kelola Makanan',
-            'foods' => Food::paginate(10)
+            'foods' => Food::paginate(5)
         ]);
     }
 
@@ -30,7 +30,7 @@ class FoodController extends Controller
     {
         return view('food.create', [
             'title' => 'New Food',
-            'foods' => Food::paginate(10)
+            'foods' => Food::paginate(5)
         ]);
     }
 

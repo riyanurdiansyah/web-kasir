@@ -40,11 +40,11 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item {{ Nav::isRoute('home') }}">
+        {{-- <li class="nav-item {{ Nav::isRoute('home') }}">
             <a class="nav-link" href="{{ route('home') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>{{ __('Dashboard') }}</span></a>
-        </li>
+        </li> --}}
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -79,8 +79,8 @@
         </li>
 
 
-        <li class="nav-item {{ Nav::isRoute('food.index') }}">
-            <a class="nav-link" href="{{ route('food.index') }}">
+        <li class="nav-item {{ Nav::isRoute('order.index') }}">
+            <a class="nav-link" href="{{ route('order.index') }}">
                 <i class="fas fa-fw fa-cash-register"></i>
                 <span>{{ __('Kasir') }}</span>
             </a>
@@ -91,22 +91,6 @@
             <a class="nav-link" href="{{ route('profile') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>{{ __('Profile') }}</span>
-            </a>
-        </li>
-
-        <!-- Nav Item - About -->
-        <li class="nav-item {{ Nav::isRoute('about') }}">
-            <a class="nav-link" href="{{ route('about') }}">
-                <i class="fas fa-fw fa-hands-helping"></i>
-                <span>{{ __('About') }}</span>
-            </a>
-        </li>
-
-        <!-- Nav Item -->
-        <li class="nav-item {{ Nav::isRoute('blank') }}">
-            <a class="nav-link" href="{{ route('blank') }}">
-                <i class="fas fa-fw fa-book"></i>
-                <span>{{ __('Blank Page') }}</span>
             </a>
         </li>
 
@@ -245,6 +229,29 @@
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+<script>
+    $('#tambahModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var nama = button.data('foodname')
+        var harga = button.data('harga')
+
+        var modal = $(this)
+        modal.find('.modal-body #nama').val(nama);
+        modal.find('.modal-body #harga').val(harga);
+        console.log(nama); 
+    })
+</script>
+<script>
+    $(".filter").on('change', function() {
+        console.log('FILTER');
+    })
+</script>
+<script>
+    function formatRupiah($angka) {
+        $hasil = "Rp. " . number_format($angka, '2', ',', '.');
+        return $hasil;
+    }
+</script>
 @stack('js')
 </body>
 </html>
