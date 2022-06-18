@@ -6,7 +6,13 @@
 @endpush
     <!-- Main Content goes here -->
 
-    <div class="row">
+    @if (session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+    @endif
+
+    <div class="row mb-4">
         <div class="card text-center mr-4" style="width: 55%">
             <div class="card-header">
               <b>DAFTAR MENU</b>
@@ -14,17 +20,8 @@
             {{-- <form action="/order" method="GET">
               <input class="form-control ml-4 mt-2" type="search" name="search" placeholder="Cari nama" style="width: 20%">
             </form> --}}
-
-            <div class="form-group form-group-lg mb-2 text-left ml-4 mt-3">
-              <select class="custom-select filter" id="filter" name="filter" style="width: 25%">
-                <option value="">Pilih Kategori</option>
-                <option value="1">Makanan</option>
-                <option value="2">Minuman</option>
-                <option value="3">Lainnya</option>
-              </select>
-            </div>
             <div class="mr-4 ml-4 mt-2">
-            <table class="table table-bordered table-stripped">
+            <table class="table table-bordered table-stripped" id="tbmenu">
               <thead>
                   <tr>
                       <th>No</th>
@@ -56,13 +53,12 @@
                       </tr>
                   @endforeach
               </tbody>
-          </table> 
-          {{ $foods->links() }}
+        </table> 
           </div>
           </div>
-          <div class="card text-center" style="width: 40%">
+          <div class="card text-center" style="width: 40%; height: 80%">
             <div class="card-header">
-              INVOICE
+              <b>INVOICE</b>
             </div>
             <div class="card-body">
               <h5 class="card-title">RM SINAR FAMILY 7</h5>
@@ -70,7 +66,7 @@
             <div class="row mt-4">
               <div class="col-sm text-left ml-4">
                 <ul class="pl-0 small" style="list-style: none;text-transform: uppercase;">
-                    <li>NOTA : {{ $orders[0]->kode }}</li>
+                    <li>NOTA : TMPTRX</li>
                     <li>KASIR : <b>{{ Auth::user()->name }} {{ Auth::user()->last_name }}</b></li>
                 </ul>
               </div>
@@ -125,27 +121,20 @@
                     </div>
                   </div>
                 @endforeach
-                {{ $orders->links() }}
             <hr>
             <ul class="list-group border-0">
                 <li class="list-group-item p-0 border-0 d-flex justify-content-between align-items-center">
                     <b>Total</b>
                     <span><b>@currency($total)</b></span>
                 </li>
-                <li class="list-group-item p-0 border-0 d-flex justify-content-between align-items-center">
-                    <b>Bayar</b>
-                    <span><b></b></span>
-                </li>
-                <li class="list-group-item p-0 border-0 d-flex justify-content-between align-items-center">
-                    <b>Kembalian</b>
-                    <span><b></b></span>
-                </li>
             </ul>
+          <button type="button" class="btn btn-danger mt-4" style="width: 100%;" data-toggle="modal" data-totalharga="{{ $total }}" data-totalhargarp="@currency($total)" data-target="#bayarModal">
+            <b>BAYAR SEKARANG</b>
+          </button>
           </div>
     </div>
-    </div>
   </div>
-
+  </div>
     <form action="{{ route('order.store') }}" method="post">
       @csrf
     <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
@@ -158,6 +147,8 @@
             </button>
           </div>
           <div class="modal-body">
+              <input type="number" class="form-control @error('flag') is-invalid @enderror" name="flag" id="flag" value="0" hidden>
+            
             <div class="form-group">
               <label for="nama">Menu</label>
               <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" id="nama" readonly>
@@ -195,40 +186,53 @@
       </div>
     </div>
     </form>
-    @section('js')
-    <script type="text/javascript">
-      function showTime() {
-          var a_p = "";
-          var today = new Date();
-          var curr_hour = today.getHours();
-          var curr_minute = today.getMinutes();
-          var curr_second = today.getSeconds();
-          if (curr_hour < 12) {
-              a_p = "AM";
-          } else {
-              a_p = "PM";
-          }
-          if (curr_hour == 0) {
-              curr_hour = 12;
-          }
-          if (curr_hour > 12) {
-              curr_hour = curr_hour - 12;
-          }
-          curr_hour = checkTime(curr_hour);
-          curr_minute = checkTime(curr_minute);
-          curr_second = checkTime(curr_second);
-       document.getElementById('clock').innerHTML=curr_hour + ":" + curr_minute + ":" + curr_second + " " + a_p;
-          }
-  
-      function checkTime(i) {
-          if (i < 10) {
-              i = "0" + i;
-          }
-          return i;
-      }
-      setInterval(showTime, 500);
 
-      </script>
+    <form action="{{ route('order.store') }}" method="post">
+      @csrf
+    <div class="modal fade" id="bayarModal" tabindex="-1" aria-labelledby="bayarModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bayarModalLabel"><b>Pembayaran</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="number" class="form-control @error('flag') is-invalid @enderror" name="flag" id="flag" value="1" hidden>
+            <div class="form-group">
+              <label for="totalhargarp">Total Harga</label>
+              <input type="text" class="form-control @error('totalhargarp') is-invalid @enderror" name="totalhargarp" id="totalhargarp" readonly>
+              @error('totalhargarp')
+                <span class="text-danger">{{ $message }}</span>
+              @enderror
+            </div>
+
+            <div class="form-group" hidden>
+              <label for="totalharga">Total Harga</label>
+              <input type="text" class="form-control @error('totalharga') is-invalid @enderror" name="totalharga" id="totalharga" readonly>
+              @error('totalharga')
+                <span class="text-danger">{{ $message }}</span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label for="bayar">Bayar</label>
+              <input type="number" class="form-control @error('bayar') is-invalid @enderror" name="bayar" id="bayar">
+              @error('bayar')
+                <span class="text-danger">{{ $message }}</span>
+              @enderror
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Bayar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+    @section('js')
+    
       @stop
 
     <!-- End of Main Content -->

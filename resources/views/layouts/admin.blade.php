@@ -21,7 +21,7 @@
 
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     @stack('css')
 </head>
 <body id="page-top">
@@ -63,7 +63,7 @@
         </li> --}}
 
 
-        <li class="nav-item {{ Nav::isRoute('user.index') }}">
+        <li class="nav-item {{ Nav::isRoute('user.index') }}" {{ Auth::user()->role != 1 ? 'hidden' : ''}}>
             <a class="nav-link" href="{{ route('user.index') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>{{ __('Kelola User') }}</span>
@@ -78,11 +78,19 @@
             </a>
         </li>
 
-
-        <li class="nav-item {{ Nav::isRoute('order.index') }}">
+        {{-- {{ Auth::user()->role != 2 ? 'hidden' : ''}} --}}
+        <li class="nav-item {{ Nav::isRoute('order.index') }}" >
             <a class="nav-link" href="{{ route('order.index') }}">
                 <i class="fas fa-fw fa-cash-register"></i>
                 <span>{{ __('Kasir') }}</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item {{ Nav::isRoute('transactions.index') }}">
+            <a class="nav-link" href="{{ route('transactions.index') }}">
+                <i class="fas fa-fw fa-cash-register"></i>
+                <span>{{ __('Penjualan') }}</span>
             </a>
         </li>
 
@@ -182,14 +190,6 @@
         </div>
         <!-- End of Main Content -->
 
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy;</span>
-                </div>
-            </div>
-        </footer>
         <!-- End of Footer -->
 
     </div>
@@ -229,6 +229,7 @@
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 <script>
     $('#tambahModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
@@ -238,8 +239,34 @@
         var modal = $(this)
         modal.find('.modal-body #nama').val(nama);
         modal.find('.modal-body #harga').val(harga);
-        console.log(nama); 
     })
+
+
+    $('#bayarModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var total = button.data('totalharga')
+        var totalrp = button.data('totalhargarp')
+
+        var modal = $(this)
+        modal.find('.modal-body #totalhargarp').val(totalrp);
+        modal.find('.modal-body #totalharga').val(total);
+    })
+    
+    $(document).ready( function () {
+        $('#tbuser').DataTable(); 
+    });
+
+    $(document).ready( function () {
+        $('#tbmenu').DataTable();
+    });
+
+    $(document).ready( function () {
+        $('#tbfood').DataTable();
+    });
+
+    $(document).ready( function () {
+        $('#tbuser').DataTable();
+    });
 </script>
 <script>
     $(".filter").on('change', function() {
@@ -248,10 +275,42 @@
 </script>
 <script>
     function formatRupiah($angka) {
-        $hasil = "Rp. " . number_format($angka, '2', ',', '.');
-        return $hasil;
+        return "Rp. " . number_format($angka, '2', ',', '.');
     }
 </script>
+<script type="text/javascript">
+    function showTime() {
+        var a_p = "";
+        var today = new Date();
+        var curr_hour = today.getHours();
+        var curr_minute = today.getMinutes();
+        var curr_second = today.getSeconds();
+        if (curr_hour < 12) {
+            a_p = "AM";
+        } else {
+            a_p = "PM";
+        }
+        if (curr_hour == 0) {
+            curr_hour = 12;
+        }
+        if (curr_hour > 12) {
+            curr_hour = curr_hour - 12;
+        }
+        curr_hour = checkTime(curr_hour);
+        curr_minute = checkTime(curr_minute);
+        curr_second = checkTime(curr_second);
+     document.getElementById('clock').innerHTML=curr_hour + ":" + curr_minute + ":" + curr_second + " " + a_p;
+        }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    setInterval(showTime, 500);
+
+    </script>
 @stack('js')
 </body>
 </html>

@@ -6,7 +6,7 @@
 
     <!-- Main Content goes here -->
 
-    <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">New User</a>
+    <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">Tambah User</a>
 
     @if (session('message'))
         <div class="alert alert-success">
@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <table class="table table-bordered table-stripped">
+    <table class="table table-bordered table-stripped" id="tbuser">
         <thead>
             <tr>
                 <th>No</th>
@@ -47,8 +47,6 @@
             @endforeach
         </tbody>
     </table>
-
-    {{ $users->links() }}
 
     <!-- End of Main Content -->
 @endsection

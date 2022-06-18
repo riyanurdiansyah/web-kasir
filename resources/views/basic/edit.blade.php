@@ -45,7 +45,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{{ route('basic.index') }}" class="btn btn-default">Back to list</a>
+                <a href="{{ route('basic.index') }}" class="btn btn-default">Kembali</a>
 
             </form>
         </div>

@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'FoodController@index')->name('home');
 
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::put('/profile', 'ProfileController@update')->name('profile.update');
@@ -38,4 +38,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('food', FoodController::class);
     Route::resource('order', OrderController::class);
+    Route::resource('transactions', TransactionController::class);
 });

@@ -10,6 +10,6 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
-        'kode', 'nama', 'harga', 'qty', 'subtotal', 'status'
+        'kode', 'nama', 'harga', 'qty', 'subtotal', 'status', 'bayar', 'kembalian'
     ];
 }

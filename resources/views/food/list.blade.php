@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <table class="table table-bordered table-stripped">
+    <table class="table table-bordered table-stripped" id="tbfood">
         <thead>
             <tr>
                 <th>No</th>
@@ -51,8 +51,6 @@
             @endforeach
         </tbody>
     </table>
-
-    {{ $foods->links() }}
 
     <!-- End of Main Content -->
 @endsection

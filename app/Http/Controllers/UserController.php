@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         return view('user.list', [
             'title' => 'Kelola User',
-            'users' => User::paginate(10)
+            'users' => User::get(),
         ]);
     }
 
@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         return view('user.create', [
             'title' => 'New User',
-            'users' => User::paginate(10)
+            'users' => User::get()
         ]);
     }
 

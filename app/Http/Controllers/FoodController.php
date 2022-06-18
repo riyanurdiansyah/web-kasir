@@ -17,7 +17,7 @@ class FoodController extends Controller
     {
         return view('food.list', [
             'title' => 'Kelola Makanan',
-            'foods' => Food::paginate(5)
+            'foods' => Food::get(),
         ]);
     }
 
