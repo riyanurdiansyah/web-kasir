@@ -1,4 +1,4 @@
-# Laravel 9 + SB Admin 2
+<!-- # Laravel 9 + SB Admin 2
 
 SB Admin 2 for Laravel 9.
 
@@ -77,4 +77,4 @@ Laravel SB Admin 2 uses some open-source third-party libraries/packages, many th
 
 ## License
 
-Licensed under the MIT license.
+Licensed under the MIT license. -->
