@@ -62,7 +62,7 @@ class TransactionController extends Controller
     public function edit($id)
     {
         return view('transaction.detail', [
-            'title' => 'Detail Penjualan',
+            'title' => 'INVOICE : ',
             'orders' => Order::where('kode', $id)->get(),
             'total' => Order::where('kode', $id)->sum('subtotal'),
         ]);

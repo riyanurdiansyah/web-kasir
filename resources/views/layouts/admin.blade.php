@@ -71,7 +71,7 @@
         </li>
 
 
-        <li class="nav-item {{ Nav::isRoute('food.index') }}">
+        <li class="nav-item {{ Nav::isRoute('food.index') }}"  {{ Auth::user()->role > 2 ? 'hidden' : ''}}>
             <a class="nav-link" href="{{ route('food.index') }}">
                 <i class="fas fa-fw fa-hamburger"></i>
                 <span>{{ __('Kelola Makanan') }}</span>
@@ -79,7 +79,7 @@
         </li>
 
         {{-- {{ Auth::user()->role != 2 ? 'hidden' : ''}} --}}
-        <li class="nav-item {{ Nav::isRoute('order.index') }}" >
+        <li class="nav-item {{ Nav::isRoute('order.index') }}"  {{ Auth::user()->role != 2 ? 'hidden' : ''}}>
             <a class="nav-link" href="{{ route('order.index') }}">
                 <i class="fas fa-fw fa-cash-register"></i>
                 <span>{{ __('Kasir') }}</span>

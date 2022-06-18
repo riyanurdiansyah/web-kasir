@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ $title ?? __('Blank Page') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ $title ?? __('Blank Page') }} {{ $orders[0]->kode }}</h1>
 
     @if (session('message'))
         <div class="alert alert-success">
@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Invoice</th>
+                {{-- <th>Invoice</th> --}}
                 <th class="text-center">Menu</th>
                 <th class="text-center">Harga</th>
                 <th class="text-center">Qty</th>
@@ -25,15 +25,15 @@
             @foreach ($orders as $order)
                 <tr>
                     <td scope="row">{{ $loop->iteration }}</td>
-                    <td>{{ $order->kode }}</td>
-                    <td class="text-center">{{ $order->nama }}</td>
+                    {{-- <td>{{ $order->kode }}</td> --}}
+                    <td class="text-left">{{ $order->nama }}</td>
                     <td class="text-center">@currency($order->harga)</td>
                     <td class="text-center">{{ $order->qty }}</td>
                     <td class="text-right" id="subtotal">@currency($order->subtotal)</td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="5"><h5><b>TOTAL</b></h5></td>
+                <td colspan="4"><h5><b>TOTAL</b></h5></td>
                 <td class="text-right"><h5><b>@currency($total)</b></h5></td>
             </tr>
         </tbody>
