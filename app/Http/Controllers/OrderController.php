@@ -80,10 +80,57 @@ class OrderController extends Controller
 
             $finalKode = 'TRX-' . $kode;
             $kembalian = $request->bayar - $request->totalharga;
+            $kembalianTemp = $request->bayar - $request->totalharga;
+
+            $cepean = 0;
+            $gocapan = 0;
+            $duapuluan = 0;
+            $cebanan = 0;
+            $gocengan = 0;
+            $duaribuan = 0;
+            $seribuan = 0;
+            $gopean = 0;
+            $duaratusan = 0;
+            $seratusan = 0;
+
+            for ($i = 0; $kembalianTemp > 0; $i++) {
+
+                if ($kembalianTemp > 100000) {
+                    $cepean = $cepean + 1;
+                    $kembalianTemp = $kembalianTemp - 100000;
+                } else if ($kembalianTemp >= 50000) {
+                    $gocapan = $gocapan + 1;
+                    $kembalianTemp = $kembalianTemp - 50000;
+                } else if ($kembalianTemp >= 20000) {
+                    $duapuluan = $duapuluan + 1;
+                    $kembalianTemp = $kembalianTemp - 20000;
+                } else if ($kembalianTemp >= 10000) {
+                    $cebanan = $cebanan + 1;
+                    $kembalianTemp = $kembalianTemp - 10000;
+                } else if ($kembalianTemp >= 5000) {
+                    $gocengan = $gocengan + 1;
+                    $kembalianTemp = $kembalianTemp - 5000;
+                } else if ($kembalianTemp >= 2000) {
+                    $duaribuan = $duaribuan + 1;
+                    $kembalianTemp = $kembalianTemp - 2000;
+                } else if ($kembalianTemp >= 1000) {
+                    $seribuan = $seribuan + 1;
+                    $kembalianTemp = $kembalianTemp - 1000;
+                } else if ($kembalianTemp >= 500) {
+                    $gopean = $gopean + 1;
+                    $kembalianTemp = $kembalianTemp - 500;
+                } else if ($kembalianTemp >= 200) {
+                    $duaratusan = $duaratusan + 1;
+                    $kembalianTemp = $kembalianTemp - 200;
+                } else if ($kembalianTemp >= 100) {
+                    $seratusan = $seratusan + 1;
+                    $kembalianTemp = $kembalianTemp - 100;
+                }
+            }
 
             DB::update('update orders set kode = ?, status = ? where kode = ?', [$finalKode, 1, 'TMPTRX']);
 
-            return redirect()->route('order.index')->with('message', 'Kembalian  : Rp.' . number_format($kembalian, 0, ',', '.'));
+            return redirect()->route('order.index')->with('message', 'Kembalian  : Rp.' . number_format($kembalian, 0, ',', '.') . '         | RINCIAN ===> ' . $cepean . ' Lembar Rp100.000  ||  ' . $gocapan . ' Lembar Rp50.000  ||  ' . $duapuluan . ' Lembar Rp20.000  ||  ' . $cebanan . ' Lembar Rp10.000  ||  ' . $gocengan . ' Lembar Rp5.000  ||  ' . $duaribuan . ' Lembar Rp2.000  ||  ' . $seribuan . ' Lembar Rp1.000  ||  ' . $gopean . ' Koin Rp500  ||  ' . $seratusan . ' Koin Rp100');
         }
     }
 
